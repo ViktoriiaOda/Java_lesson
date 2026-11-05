@@ -19,7 +19,7 @@ public class LoginTests extends TestBase {
     void wrongPasswordTest() {
         open("/login");
         $("[data-testid=login-input]").setValue("user1");
-        $("[data-testid=password-input]").setValue("WRONGPASSWORD").pressEnter();
+        $("[data-testid=password-input]").setValue("WrongPassword").pressEnter();
         $("[data-testid=error-message]").shouldBe(text("Wrong login or password"));
     }
 
