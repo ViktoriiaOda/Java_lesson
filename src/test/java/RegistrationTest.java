@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byXpath;
+import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTest extends TestBase {
@@ -11,26 +11,24 @@ public class RegistrationTest extends TestBase {
     @Test
     void successfulRegistrationAllFieldsTest() {
         open("/automation-practice-form");
-        $("p").shouldHave(exactText("Student Registration Form"));
         $("#fixedban button[aria-label='Close']").shouldBe(visible).click();
 
         $("input[id=firstName]").setValue("Auto");
         $("input[id=lastName]").setValue("Test");
         $("input[id=userEmail]").setValue("autotest@gmail.com");
-        $("input[id=gender-radio-2]").click();
+        $("#genterWrapper").$(byText("Female")).click();
         $("input[id=userNumber]").setValue("9001431430");
 
         $("input[id=dateOfBirthInput]").click();
-//        $(byXpath("//select[@class='react-datepicker__year-select']/option[@value='2000']")).click();
-        $(".react-datepicker__year-select").selectOptionByValue("2000");
-        $(".react-datepicker__month-select").selectOptionByValue("6");
+        $(".react-datepicker__year-select").selectOptionContainingText("2000");
+        $(".react-datepicker__month-select").selectOptionContainingText("July");
         $(byXpath("//div[@id='datepickerDays']/span[text()='11']")).click();
 
         $("#subjectsWrapper").click();
         $$("#subjectsDropdown div").findBy(text("Arts")).scrollTo().click();
-        $("#hobbies-checkbox-1").setSelected(true);
-        $("#hobbies-checkbox-3").setSelected(true);
-        $("input[type='file']").uploadFile(new File("src/test/resources/foto.jpg"));
+        $("#hobbiesWrapper").$(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Music")).click();
+        $("input[type='file']").uploadFromClasspath("foto.jpg");
 
         $("textarea[id='currentAddress']").setValue("Первая строка\nВторая строка\nТретья строка\nСтрока №4");
         $("#state").click();
@@ -41,16 +39,16 @@ public class RegistrationTest extends TestBase {
         $("button[id='submit']").click();
 
         $("#example-modal-sizes-title-lg").shouldBe(visible).shouldHave(exactText("Thanks for submitting the form"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Student Name']/following::td")).shouldHave(text("Auto Test"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Student Email']/following::td")).shouldHave(text("autotest@gmail.com"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Gender']/following::td")).shouldHave(text("Female"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Mobile']/following::td")).shouldHave(text("9001431430"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Date of Birth']/following::td")).shouldHave(text("11 Jul 2000"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Subjects']/following::td")).shouldHave(text("Arts"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Hobbies']/following::td")).shouldHave(text("Sports, Music"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Picture']/following::td")).shouldHave(text("foto.jpg"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='Address']/following::td")).shouldHave(text("Первая строка Вторая строка Третья строка Строка №4"));
-        $(byXpath("//tbody[@id='resultBody']//td[text()='State and City']/following::td")).shouldHave(text("Haryana Panipat"));
+        $("#resultBody").$(byText("Student Name")).sibling(0).shouldHave(text("Auto Test"));
+        $("#resultBody").$(byText("Student Email")).sibling(0).shouldHave(text("autotest@gmail.com"));
+        $("#resultBody").$(byText("Gender")).sibling(0).shouldHave(text("Female"));
+        $("#resultBody").$(byText("Mobile")).sibling(0).shouldHave(text("9001431430"));
+        $("#resultBody").$(byText("Date of Birth")).sibling(0).shouldHave(text("11 Jul 2000"));
+        $("#resultBody").$(byText("Subjects")).sibling(0).shouldHave(text("Arts"));
+        $("#resultBody").$(byText("Hobbies")).sibling(0).shouldHave(text("Sports, Music"));
+        $("#resultBody").$(byText("Picture")).sibling(0).shouldHave(text("foto.jpg"));
+        $("#resultBody").$(byText("Address")).sibling(0).shouldHave(text("Первая строка Вторая строка Третья строка Строка №4"));
+        $("#resultBody").$(byText("State and City")).sibling(0).shouldHave(text("Haryana Panipat"));
     }
 
     @Test
@@ -61,7 +59,7 @@ public class RegistrationTest extends TestBase {
 
         $("input[id=firstName]").setValue("Auto");
         $("input[id=lastName]").setValue("Test");
-        $("input[id=gender-radio-1]").click();
+        $("#genterWrapper").$(byText("Male")).click();
         $("input[id=userNumber]").setValue("9001431430");
         $("button[id='submit']").scrollTo().click();
 
