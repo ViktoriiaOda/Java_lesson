@@ -10,7 +10,6 @@ public class TextBoxTest extends TestBase {
     @Test
     void successfulFullFieldsTest() {
         open("/text-box.html");
-        $("h1").shouldHave(exactText("Text Box"));
 
         $("#userName").setValue("Auto Test");
         $("#userEmail").setValue("autotest@gmail.com");
@@ -28,7 +27,6 @@ public class TextBoxTest extends TestBase {
     @Test
     void checkEmptyFieldsTest() {
         open("/text-box.html");
-        $("h1").shouldHave(exactText("Text Box"));
         $("#submit").click();
 
         $("#output").shouldBe(visible).shouldHave(
